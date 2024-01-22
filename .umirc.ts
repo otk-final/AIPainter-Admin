@@ -46,17 +46,7 @@ export default defineConfig({
       path: '/membercard',
       component: '@/pages/MemberCard/index',
       icon: 'PayCircleOutlined', 
-    },
-    {
-      name: '权限演示',
-      path: '/access',
-      component: './Access',
-    },
-    {
-      name: ' CRUD 示例',
-      path: '/table',
-      component: './Table',
-    },
+    }
   ],
   npmClient: 'yarn'
 });

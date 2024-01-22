@@ -8,24 +8,24 @@ export const cardType = [
       value: 100,
     },
     {
-      label: '一级',
-      value: 0,
-    },
-    {
-      label: '二级',
+      label: 'vip',
       value: 1,
     },
 ];
 
-/** 卡状态 */
-export const cardStatus = [
+/** 卡 使用状态 */
+export const cardUseStatus = [
     {
       label: '全部',
       value: 100,
     },
     {
-      label: '卡状态1',
+      label: '未使用',
       value: 1,
+    },
+    {
+      label: '已使用',
+      value: 2,
     },
 ];
 
@@ -54,24 +54,29 @@ export const memberCardFormData = {
       options: cardType,
       value: 100,
     },
-    cardStatus: {
+    cardUseStatus: {
       type: 'select',
       label: '卡状态:',
-      key: 'cardStatus',
-      options: cardStatus,
+      key: 'cardUseStatus',
+      options: cardUseStatus,
       value: 100,
     },
 };
 
-enum CardType {
-
-
+export interface MemberCardProps {
+  cardId?: string,
+  password?: string, 
+  cardType?: number,
+  startTime?: string,
+  useTime?: string,
+  useAccount?: string,
+  cardUseStatus?: number,
+  cardStatus?: number
 }
 
-export const memberCardColumns: Columns<any, any> = [
+export const memberCardColumns: Columns<MemberCardProps, any> = [
     {
       title: '序号',
-      width: 100,
       render: (item: any) => {
         return item.index;
       },
@@ -90,8 +95,8 @@ export const memberCardColumns: Columns<any, any> = [
       title: '卡类型',
       key: 'cardType',
       dataIndex: 'cardType',
-      return: (_)=>{
-        return <div></div>
+      return: (i: number)=>{
+        return <div>{i === 1? "vip": "普通"}</div>
       }
     },
     {
@@ -111,21 +116,23 @@ export const memberCardColumns: Columns<any, any> = [
     },
     {
         title: '状态',
-        key: 'cardStatus',
-        dataIndex: 'cardStatus',
+        key: 'cardUseStatus',
+        dataIndex: 'cardUseStatus',
+        return: (i: number)=>{
+          return <div>{i === 2? "已使用": "未使用"}</div>
+        }
       },
     {
       title: '操作',
-      key: 'action',
-      render: (_, item) => {
+      dataIndex: 'cardStatus',
+      key: 'cardStatus',
+      render: (i, item) => {
         return (
 			<div className="flexR">
 				<Button style={{marginRight: '20px'}} 
 					onClick={() => {
 						memberCardFormData?.onOperation?.(
-							UserStatus.Disable,
-							i,
-							item,
+							"disable", i, item
 						);
 					}}
 				>
@@ -134,9 +141,7 @@ export const memberCardColumns: Columns<any, any> = [
 				<Button 
 					onClick={() => {
 						memberCardFormData?.onOperation?.(
-							UserStatus.Enable,
-							i,
-							item,
+              "enable", i, item
 						);
 					}}
 				> 

@@ -1,10 +1,8 @@
-import Guide from '@/components/Guide';
-import { trim } from '@/utils/format';
 import { PageContainer } from '@ant-design/pro-components';
-import { Outlet, useLocation, useModel } from '@umijs/max';
+import { useLocation, useModel } from '@umijs/max';
 import { history } from 'umi';
-import { Button, message, Modal, Tabs, TabsProps } from 'antd';
-import { useEffect, useRef, useState } from 'react';
+import { Button, Modal, Tabs, TabsProps } from 'antd';
+import { useRef, useState } from 'react';
 import  './index.less';
 import { TableSearch } from '@/components';
 import { KeyValuePair } from '@/components/table-search';
@@ -12,16 +10,35 @@ import { loraModelColumns, ModelProps, normalModelColumns } from './data';
 
 const mockData = [
 	{
-		kid: '111111',
+		kid: '1',
 		modelName: "111",
 		nickName: "sssss",
 		fileList: [],
-		positiveWord: "sssss",
-		negativeWord: "sssss",
+		positiveWord: "dg",
+		negativeWord: "sdg",
+	},
+	{
+		kid: '2',
+		modelName: "222",
+		nickName: "2334",
+		fileList: [],
+		positiveWord: "sss454545ss",
+		negativeWord: "4545å",
+	}
+]
+
+const mockloraData = [
+	{
+		kid: '111111',
+		modelName: "Lora模型222",
+		nickName: "sssss",
+		fileList: [],
+		positiveWord: "gsdgs",
+		negativeWord: "sssdgseress",
 	},
 	{
 		kid: '22222',
-		modelName: "222",
+		modelName: "Lora模型111",
 		nickName: "2334",
 		fileList: [],
 		positiveWord: "sss454545ss",
@@ -35,6 +52,7 @@ const ModelPage: React.FC = () => {
 	const location = useLocation();
 	const tableRef = useRef<KeyValuePair>({});
 	const [tableData, setTableData] = useState(mockData);
+	const [tableloraData, setTableLoraData] = useState(mockloraData);
 
 	const  items: TabsProps['items'] = [
 		{
@@ -52,7 +70,7 @@ const ModelPage: React.FC = () => {
 		console.log("编辑")
 		history.push(`/model/addAndEdit`, {
 			type: curTab,
-			kid: item.kid
+			...item,
 		})
 	}
 
@@ -78,10 +96,19 @@ const ModelPage: React.FC = () => {
 	normalModelColumns.onOperation = (v, _, item) => {
 		switch (v) {
 			case 'edit':
-				console.log('8888')
 				return handleEdit(item!);
 			case 'del':
-				console.log('9999')
+			    return handleDel(item!);
+			default: 
+				return;
+		  }
+	}
+
+	loraModelColumns.onOperation = (v, _, item) => {
+		switch (v) {
+			case 'edit':
+				return handleEdit(item!);
+			case 'del':
 			    return handleDel(item!);
 			default: 
 				return;
@@ -104,7 +131,7 @@ const ModelPage: React.FC = () => {
 				ref={tableRef}
 				// listApi={""}
 				bordered={true}
-				tableData={tableData}
+				tableData={curTab  === '1' ? tableData : tableloraData}
 				sticky={{ offsetHeader: 48 }}
 				columns={curTab  === '1' ?  normalModelColumns : loraModelColumns}
 				pagination={{ current: 1, pageSize: 10}}

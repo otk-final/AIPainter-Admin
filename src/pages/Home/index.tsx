@@ -1,6 +1,4 @@
-import Guide from '@/components/Guide';
 import { useLogin } from '@/uses';
-import { trim } from '@/utils/format';
 import { EyeInvisibleOutlined, EyeTwoTone, KeyOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
@@ -8,6 +6,86 @@ import { Button, Input } from 'antd';
 import { Line } from '@ant-design/plots';
 import { useEffect } from 'react';
 import  './index.less';
+
+const chartData = [
+  { "Date": "01-10", count: 190, },
+  { "Date": "01-11", count: 304,  },
+  { "Date": "01-12", count: 190, },
+  { "Date": "01-13", count: 204,  },
+  { "Date": "01-14", count: 90, },
+  { "Date": "01-15", count: 194,  },
+  { "Date": "01-16", count: 190, },
+  { "Date": "01-17", count: 204,  },
+];
+
+const chartConfig = {
+  height: 400,
+  padding: 'auto',
+  xField: 'Date',
+  yField: 'count',
+  limitInPlot: true,
+  xAxis: {
+    // type: 'timeCat',
+    tickCount: 5,
+  },
+};
+
+const datas = [
+  {
+    key: 'newUser',
+    title: '日新增用户数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+      lineStyle: {
+        stroke: 'black',
+        lineWidth: 2,
+        lineDash: [4,5],
+      },
+    }
+  },
+  {
+    key: 'vip',
+    title: '日VIP新增数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+    }
+  },
+  {
+    key: 'createImage',
+    title: '日生图数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+      color: '#f61'
+    }
+  },
+  {
+    key: 'inference',
+    title: '日推理数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+    }
+  }, 
+  {
+    key: 'translation',
+    title: '日翻译数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+    }
+  },
+  {
+    key: 'voiceCompound',
+    title: '日语音合成数',
+    config: {
+      data: chartData,
+      ...chartConfig,
+    }
+  }
+]
 
 const HomePage: React.FC = () => {
   const { name } = useModel('global');
@@ -40,25 +118,23 @@ const HomePage: React.FC = () => {
     )
   }
 
-  const data = [
-    { time: '1991', value: 20 },
-    { time: '1992', value: 20 },
-  ];
-  const config = {
-    data,
-    padding: 'auto',
-    xField: 'Date',
-    yField: 'scales',
-    xAxis: {
-      // type: 'timeCat',
-      tickCount: 5,
-    },
-    smooth: true,
-  };
+  
+  
 
   return (
-    <PageContainer ghost className='home-wrap'>
-        <Line {...config} />
+    <PageContainer ghost >
+      <div className='home-wrap flexR'>
+        {
+          datas.map((i)=>{
+            return (
+              <div className='section-wrap flexC'key={i.key}>
+                <div className='title'>{i.title}</div>
+                <Line {...i.config} className="chart-wrap"/>
+              </div>
+            )
+          })
+        }
+      </div>
     </PageContainer>
   );
 };

@@ -12,13 +12,7 @@ const ModelAddEditPage: React.FC = () => {
     const modalType = state?.type === "1" ? "大模型" : "Lora模型";
 
     useEffect(()=>{
-        addForm.setFieldsValue({
-            modelName: "string",
-            nickName: "sssss",
-            fileList: [],
-            positiveWord: "sssss",
-            negativeWord: "sssss",
-          });
+        addForm.setFieldsValue({...state});
     },[state.kid])
 
     const normFile = (e: any) => {
@@ -50,7 +44,7 @@ const ModelAddEditPage: React.FC = () => {
     }
 
     return (
-        <PageContainer ghost title={`新增${modalType}`}>
+        <PageContainer ghost title={`${state.kid ? "编辑" : "新增"}${modalType}`}>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}

@@ -1,13 +1,12 @@
 import { SearchForm, TableSearch } from '@/components';
 import { KeyValuePair } from '@/components/table-search';
 import { PageContainer } from '@ant-design/pro-components';
-import { useModel } from '@umijs/max';
 import { useRef, useState } from 'react';
 import { userFormData, UserProps, usersColumns, UserStatus } from './data';
-import  './index.less';
 
 const mockData = [
 	{
+		kid: '122',
 		userId: '122',
 		phone: '13434543213',
 		registerDate: '',
@@ -17,15 +16,17 @@ const mockData = [
 		userStatus: 1
 	},
 	{
+		kid: '222',
 		userId: '222',
 		phone: '13434543213',
 		registerDate: '',
 		endLoginTime: '',
 		userGrade: 2,
 		endTime: '',
-		userStatus: 3
+		userStatus: 1
 	},
 	{
+		kid: '12',
 		userId: '12',
 		phone: '13434543213',
 		registerDate: '',
@@ -35,6 +36,7 @@ const mockData = [
 		userStatus: 1
 	},
 	{
+		kid: '22w2',
 		userId: '22w2',
 		phone: '13434543213',
 		registerDate: '',
@@ -46,7 +48,6 @@ const mockData = [
 ]
 
 	const UserPage: React.FC = () => {
-	const { name } = useModel('global');
 	const [searchData, setSearchData] = useState({ param: {} });
 	const [tableData, setTableData] = useState(mockData);
 	const tableRef = useRef<KeyValuePair>({});

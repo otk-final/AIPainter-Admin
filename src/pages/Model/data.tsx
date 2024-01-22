@@ -32,7 +32,7 @@ export const normalModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
       title: '配图',
       key: 'fileList',
       dataIndex: 'fileList',
-      return: (i) => {
+      return: (_) => {
         return <Image src="" style={{width: '150px', height: '150px', background: '#f61'}}/>
       }
     },

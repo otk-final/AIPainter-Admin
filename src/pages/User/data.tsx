@@ -18,13 +18,9 @@ export const userGrade = [
       value: 100,
     },
     {
-      label: '一级',
-      value: 0,
-    },
-    {
-      label: '二级',
+      label: 'vip',
       value: 1,
-    },
+    }
 ];
 
 /** 用户状态 */
@@ -34,17 +30,14 @@ export const userStatus = [
       value: 100,
     },
     {
-      label: '正常',
+      label: '启用',
       value: 1,
     },
     {
-      label: '启用',
+      label: '停用',
       value: 2,
     },
-    {
-      label: '停用',
-      value: 3,
-    },
+   
 ];
 
 /** 用户列表搜索项 */
@@ -75,8 +68,8 @@ export const userFormData = {
 };
 
 export enum UserStatus {
-	Enable = 2,
-	Disable = 3,
+	Enable = 1,
+	Disable = 2,
 }
 
 
@@ -121,7 +114,7 @@ export const usersColumns: Columns<UserProps, UserStatus> = [
   },
   {
     title: '操作',
-	dataIndex: 'userStatus',
+    dataIndex: 'userStatus',
     render: (i, item) => {
       return (
         <div className="flexR">
@@ -134,7 +127,7 @@ export const usersColumns: Columns<UserProps, UserStatus> = [
 					);
 				}}
 			>
-				{i === 3 ? '已停用' : '停用'}
+				{i === 1 ? '已停用' : '停用'}
             </Button>
             <Button 
 				onClick={() => {
