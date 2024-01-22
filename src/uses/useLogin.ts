@@ -7,9 +7,8 @@ export var LOGIN_INFO = 'LOGIN_INFO';
 interface LoginInfo {
     isLogin: boolean,
     nickName?: string,
-    inviteCode?: string,
-    endTime?: string,
-    phone?: string
+    phone?: string,
+    password?: string
 }
 
 // info 用户信息
@@ -45,14 +44,14 @@ export const LoginProvider = (props: any) => {
     }, [])
 
     const login = useCallback((res: LoginInfo)=>{
-        setLoginState(res);
+        setLoginState({...res, isLogin: true});
         setCache(LOGIN_INFO, res);
     }, [])
 
     const logout = useCallback(()=>{
         setLoginState(defalutLoginInfo);
         setCache(LOGIN_INFO, defalutLoginInfo);
-        history.replace('/')
+        history.replace('/login')
     },[])
 
     const updateLoginState = useCallback((v: LoginInfo)=>{
