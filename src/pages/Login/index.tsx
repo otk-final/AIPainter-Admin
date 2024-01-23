@@ -14,6 +14,7 @@ const LoginPage = ()=>{
 
     const handleLogin = ()=> {
         login({
+            // userId: '123454321',
             nickName: name,
             password
         });

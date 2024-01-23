@@ -1,5 +1,5 @@
-import { Columns } from "@/api/global";
 import { Button } from "antd";
+import { Columns } from "typings";
 
 /** 卡等级 */
 export const cardType = [

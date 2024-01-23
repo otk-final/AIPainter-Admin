@@ -3,6 +3,8 @@ import { KeyValuePair } from '@/components/table-search';
 import { PageContainer } from '@ant-design/pro-components';
 import { useRef, useState } from 'react';
 import { userFormData, UserProps, usersColumns, UserStatus } from './data';
+import { request } from '@@/plugin-request'
+
 
 const mockData = [
 	{
@@ -77,8 +79,21 @@ const mockData = [
 		}
 	}
 
-
-
+	const listApi = (
+		pageRequest: any,
+	  ): Promise<any> => {
+		return request('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json', {
+			params: pageRequest,
+			method: 'GET',
+			timeout: 2000,
+			// other axios options
+			skipErrorHandler: true,
+			getResponse: false,
+			requestInterceptors: [],
+			responseInterceptors: [],
+		  })
+	}
+	
 	return (
 		<PageContainer ghost>
 			<SearchForm
@@ -87,7 +102,7 @@ const mockData = [
 			/>
 			<TableSearch
 			ref={tableRef}
-				// listApi={""}
+				listApi={listApi}
 				bordered={true}
 				searchData={searchData}
 				tableData={tableData}

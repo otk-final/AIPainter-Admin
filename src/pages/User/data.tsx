@@ -1,5 +1,5 @@
-import { Columns } from "@/api/global";
 import { Button } from "antd";
+import { Columns } from "typings";
 
 export interface UserProps {
 	userId: string, 

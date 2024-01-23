@@ -3,6 +3,8 @@ import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { Line } from '@ant-design/plots';
 import  './index.less';
+import { useEffect } from 'react';
+import { httpGet } from '@/services/http';
 
 const chartData = [
   { "Date": "01-10", count: 190, },
@@ -87,6 +89,23 @@ const datas = [
 const HomePage: React.FC = () => {
   const { name } = useModel('global');
   const {loginState} = useLogin();
+
+
+	useEffect(()=>{
+		httpGet('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json', {
+			params: { name : 1 },
+			method: 'GET',
+			timeout: 2000,
+			// other axios options
+			skipErrorHandler: true,
+			getResponse: false,
+			requestInterceptors: [],
+			responseInterceptors: [],
+		  }).then((res)=>{
+			console.log('ssss111s', res)
+		  })
+
+	},[])
 
   return (
     <PageContainer ghost >

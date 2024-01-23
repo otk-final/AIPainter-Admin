@@ -8,7 +8,9 @@ interface LoginInfo {
     isLogin: boolean,
     nickName?: string,
     phone?: string,
-    password?: string
+    password?: string,
+    userId?: string,
+    token?: string
 }
 
 // info 用户信息
@@ -45,7 +47,7 @@ export const LoginProvider = (props: any) => {
 
     const login = useCallback((res: LoginInfo)=>{
         setLoginState({...res, isLogin: true});
-        setCache(LOGIN_INFO, res);
+        setCache(LOGIN_INFO, {...res, isLogin: true});
     }, [])
 
     const logout = useCallback(()=>{

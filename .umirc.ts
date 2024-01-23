@@ -5,15 +5,25 @@ export default defineConfig({
   access: {},
   model: {},
   initialState: {},
-  request: {},
+  request: {
+    dataField: ''
+  },
   layout: {
     title: 'AI-painter',
+    locale: false
   },
   routes: [
     {
       path: '/',
       redirect: '/home',
       icon: 'HomeFilled'
+    },
+    {
+      path: '/login',
+      component: './Login',
+      hideChildrenInMenu: true,
+      hideInMenu: true,
+      menuRender: false
     },
     {
       name: '首页',

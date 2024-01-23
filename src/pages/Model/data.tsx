@@ -1,5 +1,5 @@
-import { Columns } from "@/api/global";
 import { Button, Image } from "antd";
+import { Columns } from "typings";
 
 export interface ModelProps {
     kid?: string;
