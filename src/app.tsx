@@ -25,10 +25,10 @@ export async function getInitialState(): Promise<{ name: string }> {
  */
 export function render(oldRender: any) {
 	let state = getLoginInfo();
-	if (state.isLogin) {
+	if (!state) {
 		oldRender();
 	} else {
-		history.push('/login');
+		// history.push('/login');
 		oldRender();
 	}
 }
@@ -40,21 +40,21 @@ export function render(oldRender: any) {
 export const request: RequestConfig = {
 	timeout: 1000,
 	errorConfig: {
-		errorHandler(){},
-		errorThrower(){}
+		errorHandler() { },
+		errorThrower() { }
 	},
 	requestInterceptors: [
 		(res: any) => {
 			console.warn('--------请求数据--------', res);
 			return res
-		}, 
+		},
 	],
 	responseInterceptors: [
 		(res) => {
 			console.warn('--------响应数据--------', res);
 			return res
-		}, 
-		(e: any) => { 
+		},
+		(e: any) => {
 			// if (e?.data?.code === '101') {
 			// 	history.replace('/login');
 			// }
@@ -64,14 +64,14 @@ export const request: RequestConfig = {
 };
 
 export const layout: RunTimeLayoutConfig = () => {
-	const {logout, loginState} = useLogin();
+	const { logout, state } = useLogin();
 	return {
 		logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
 		menu: {
 			locale: false,
 		},
 		rightContentRender: () => {
-			return loginState.isLogin ? <Button type="text" onClick={logout}>{loginState.nickName} 退出登录</Button> : <div/>
-		} 
+			return state ? <Button type="text" onClick={logout}>{state.principal.name} 退出登录</Button> : <div/>
+		}
 	};
 };

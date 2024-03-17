@@ -45,9 +45,9 @@ export default defineConfig({
       hideChildrenInMenu: true,
     },
     {
-      path: '/model/addAndEdit',
+      path: '/model/upload',
       name: '新增模型',
-      component: '@/pages/Model/addAndEdit',
+      component: '@/pages/Model/uploadForm',
       hideInBreadcrumb: true,
       hideInMenu: true,
     },
@@ -58,6 +58,13 @@ export default defineConfig({
       icon: 'PayCircleOutlined', 
     }
   ],
-  npmClient: 'yarn'
+  npmClient: 'yarn',
+  define: {
+    "process.env.TENANT_ID": process.env.TENANT_ID,
+    "process.env.APP_ID": process.env.APP_ID,
+    "process.env.DEFAULT_HOST": process.env.DEFAULT_HOST,
+    "process.env.AUTH_HOST": process.env.AUTH_HOST,
+    "process.env.AUTH_CLIENT_BASIC": process.env.AUTH_CLIENT_BASIC,
+  }
 });
 

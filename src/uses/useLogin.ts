@@ -1,86 +1,92 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { getCache, setCache } from '@/utils';
 import {history} from 'umi'
-var defalutLoginInfo = { isLogin: false };
-export var LOGIN_INFO = 'LOGIN_INFO';
+const LOGIN_INFO = 'LOGIN_INFO';
 
-interface LoginInfo {
-    isLogin: boolean,
-    nickName?: string,
-    phone?: string,
-    password?: string,
-    userId?: string,
-    token?: string
+export interface UserAuthorization {
+    accessToken: string
+    accessExpiresIn: number,
+    refreshToken: string,
+    refreshExpiresIn: number,
+    principal: UserPrincipal
+    scopes: string[]
+    tokenType: string
 }
+
+export interface UserPrincipal {
+    type: string
+    id: string
+    name: string
+    profile: any
+}
+
 
 // info 用户信息
 interface LoginAttribute {
-    loginState: LoginInfo;
-    updateLoginState: (v: LoginInfo) => void,
+    state?: UserAuthorization
+    updateUserAuthorization: (v: UserAuthorization) => void,
     login: (info: any) => void;
     logout: () => void;
   }
 
 let context:LoginAttribute = {
-    loginState: defalutLoginInfo,
-    updateLoginState: () => {},
+    updateUserAuthorization: () => {},
     login: ()=>{},
     logout: ()=>{}
 }
 
-var LoginContext = React.createContext(context);
+const LoginContext = React.createContext(context);
 
 export const useLogin = ()=>{
     return useContext(LoginContext);
 }
 
 export const LoginProvider = (props: any) => {
-    const [loginState, setLoginState] = useState(defalutLoginInfo);
-
+    const [state, setLogin] = useState<UserAuthorization | undefined>();
 
     useEffect(()=>{
-        let state: LoginInfo = getCache(LOGIN_INFO) as LoginInfo  || defalutLoginInfo;
-        if(state.isLogin) {
-            setLoginState(state);
+        let userAuthor: UserAuthorization = getCache(LOGIN_INFO) as UserAuthorization  || undefined;
+        if (userAuthor) {
+            //TODO 校验 有效期
+            setLogin({ ...userAuthor });
         }
     }, [])
 
-    const login = useCallback((res: LoginInfo)=>{
-        setLoginState({...res, isLogin: true});
-        setCache(LOGIN_INFO, {...res, isLogin: true});
+    const login = useCallback((res: UserAuthorization)=>{
+        setLogin({...res});
+        setCache(LOGIN_INFO, {...res});
     }, [])
 
     const logout = useCallback(()=>{
-        setLoginState(defalutLoginInfo);
-        setCache(LOGIN_INFO, defalutLoginInfo);
+        setLogin(undefined);
+        setCache(LOGIN_INFO, undefined);
         history.replace('/login')
     },[])
 
-    const updateLoginState = useCallback((v: LoginInfo)=>{
-        setLoginState(res=>{
+    const updateUserAuthorization = useCallback((v: UserAuthorization)=>{
+        setLogin(res=>{
             return {...v}
         })
     },[])
+
 
     return React.createElement(
         LoginContext.Provider,
         {
             value: {
-                loginState,
+                state,
                 login,
                 logout,
-                updateLoginState
+                updateUserAuthorization
             }
         },
         props.children
     )
 } 
 
-
 /**
  * 获取登录信息
  */
-export const getLoginInfo: () => LoginInfo = () => {
-    let state: LoginInfo = getCache(LOGIN_INFO) as LoginInfo  || defalutLoginInfo;
-    return state;
+export const getLoginInfo: () => UserAuthorization = () => {
+    return getCache(LOGIN_INFO) as UserAuthorization  || undefined;
 };

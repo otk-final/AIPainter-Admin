@@ -1,17 +1,14 @@
-import { Button, Image } from "antd";
+import { Button } from "antd";
 import { Columns } from "typings";
 
-export interface ModelProps {
-    kid?: string;
-    modelName?: string;
-    nickName?: string;
-    fileList?: any[];
-    positiveWord?: string
-    negativeWord?: string
+export interface ModelColumnsProps {
+    id?: string;
+    actionName?: string;
+    rootFileName?: string;
+    createdBy: string
 }
 
-/** 大模型列表项 */
-export const normalModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
+export const ModelColumns: Columns<ModelColumnsProps, 'edit' | 'del'> = [
     {
       title: '序号',
       render: (item: any) => {
@@ -19,32 +16,19 @@ export const normalModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
       },
     },
     {
-      title: '大模型名称',
-      key: 'modelName',
-      dataIndex: 'modelName',
+      title: '名称',
+      key: 'actionName',
+      dataIndex: 'actionName',
     },
     {
-      title: '对外名称',
-      key: 'nickName',
-      dataIndex: 'nickName',
-    },
-    {    
-      title: '配图',
-      key: 'fileList',
-      dataIndex: 'fileList',
-      return: (_) => {
-        return <Image src="" style={{width: '150px', height: '150px', background: '#f61'}}/>
-      }
+      title: '文件名称',
+      key: 'rootFileName',
+      dataIndex: 'rootFileName',
     },
     {
-      title: '默认正向展示',
-      key: 'positiveWord',
-      dataIndex: 'positiveWord',
-    },
-    {
-      title: '默认反向展示',
-      key: 'negativeWord',
-      dataIndex: 'negativeWord',
+      title: '创建时间',
+      key: 'createdBy',
+      dataIndex: 'createdBy',
     },
     {
       title: '操作',
@@ -53,65 +37,7 @@ export const normalModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
             <div className="flexR">
                 <Button style={{marginRight: '20px'}} 
                     onClick={() => {
-                        console.log('00000')
-                    normalModelColumns?.onOperation?.(
-                            'edit',  _,  item,
-                        );
-                    }}
-                >
-                    编辑
-                </Button>
-                <Button style={{marginRight: '20px'}} 
-                    onClick={() => {
-                        console.log('3333')
-                    normalModelColumns?.onOperation?.(
-                            'del',  _,  item,
-                        );
-                    }}
-                >
-                    删除
-                </Button>
-            </div>
-        )
-      },
-    },
-];
-  
-
-/** lora模型列表项 */
-export const loraModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
-    {
-      title: '序号',
-      render: (item: any) => {
-        return item.index;
-      },
-    },
-    {
-      title: 'Lora模型名称',
-      key: 'modelName',
-      dataIndex: 'modelName',
-    },
-    {
-      title: '对外名称',
-      key: 'nickName',
-      dataIndex: 'nickName',
-    },
-    {    
-      title: '配图',
-      key: 'fileList',
-      dataIndex: 'fileList',
-      return: (i) => {
-        return <Image src="" style={{width: '150px', height: '150px', background: '#f61'}}/>
-      }
-    },
-    {
-      title: '操作',
-      render: (_, item) => {
-        return (
-            <div className="flexR">
-                <Button style={{marginRight: '20px'}} 
-                    onClick={() => {
-                        loraModelColumns?.onOperation?.(
+                      ModelColumns?.onOperation?.(
                             'edit', _, item,
                         );
                     }}
@@ -120,7 +46,7 @@ export const loraModelColumns: Columns<ModelProps, 'edit' | 'del'> = [
                 </Button>
                 <Button style={{marginRight: '20px'}} 
                     onClick={() => {
-                        loraModelColumns?.onOperation?.(
+                      ModelColumns?.onOperation?.(
                             'del', _, item,
                         );
                     }}

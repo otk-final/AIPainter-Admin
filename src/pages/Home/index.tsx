@@ -2,19 +2,19 @@ import { useLogin } from '@/uses';
 import { PageContainer } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { Line } from '@ant-design/plots';
-import  './index.less';
+import './index.less';
 import { useEffect } from 'react';
-import { httpGet } from '@/services/http';
+import { DefaultClient } from '@/api/http';
 
 const chartData = [
   { "Date": "01-10", count: 190, },
-  { "Date": "01-11", count: 304,  },
+  { "Date": "01-11", count: 304, },
   { "Date": "01-12", count: 190, },
-  { "Date": "01-13", count: 204,  },
+  { "Date": "01-13", count: 204, },
   { "Date": "01-14", count: 90, },
-  { "Date": "01-15", count: 194,  },
+  { "Date": "01-15", count: 194, },
   { "Date": "01-16", count: 190, },
-  { "Date": "01-17", count: 204,  },
+  { "Date": "01-17", count: 204, },
 ];
 
 const chartConfig = {
@@ -39,7 +39,7 @@ const datas = [
       lineStyle: {
         stroke: 'black',
         lineWidth: 2,
-        lineDash: [4,5],
+        lineDash: [4, 5],
       },
     }
   },
@@ -67,7 +67,7 @@ const datas = [
       data: chartData,
       ...chartConfig,
     }
-  }, 
+  },
   {
     key: 'translation',
     title: '日翻译数',
@@ -88,34 +88,24 @@ const datas = [
 
 const HomePage: React.FC = () => {
   const { name } = useModel('global');
-  const {loginState} = useLogin();
+  const { loginState } = useLogin();
 
 
-	useEffect(()=>{
-		httpGet('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json', {
-			params: { name : 1 },
-			method: 'GET',
-			timeout: 2000,
-			// other axios options
-			skipErrorHandler: true,
-			getResponse: false,
-			requestInterceptors: [],
-			responseInterceptors: [],
-		  }).then((res)=>{
-			console.log('ssss111s', res)
-		  })
-
-	},[])
+  useEffect(() => {
+    DefaultClient.get('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json', {
+      params: { name: 1 },
+    })
+  }, []);
 
   return (
     <PageContainer ghost >
       <div className='home-wrap flexR'>
         {
-          datas.map((i)=>{
+          datas.map((i) => {
             return (
-              <div className='section-wrap flexC'key={i.key}>
+              <div className='section-wrap flexC' key={i.key}>
                 <div className='title'>{i.title}</div>
-                <Line {...i.config} className="chart-wrap"/>
+                <Line {...i.config} className="chart-wrap" />
               </div>
             )
           })
