@@ -108,7 +108,7 @@ const ModelPage: React.FC = () => {
 
 	const handleAdd = (type: string, title: string) => {
 		setUploadTitle(title)
-		setUploadForm({ name: "", type: type })
+		setUploadForm({ name: "默认", type: type })
 		setUploadOpen(true)
 	}
 
@@ -157,7 +157,7 @@ const ModelPage: React.FC = () => {
 			<Table sticky={{ offsetHeader: 48 }} columns={columns} dataSource={data?.entities} size={'small'} bordered pagination={apiPagination} loading={loading} />
 
 
-			<Modal title={uploadTitle} open={uploadOpen} width={900} onOk={handleUpload} onCancel={() => setUploadOpen(false)}>
+			{uploadOpen && <Modal title={uploadTitle} open={uploadOpen} width={900} onOk={handleUpload} onCancel={() => setUploadOpen(false)}>
 				<Form
 					name="basic"
 					labelCol={{ span: 8 }}
@@ -168,7 +168,7 @@ const ModelPage: React.FC = () => {
 				>
 					<Form.Item
 						label={`名称`}
-						name="actionName"
+						name="name"
 						rules={[{ required: true, message: `请输入模型名称` }]}
 					>
 						<Input placeholder={`请输入模型名称`} value={uploadForm.name} onChange={(e) => setUploadForm({ ...uploadForm, name: e.target.value })} />
@@ -182,7 +182,7 @@ const ModelPage: React.FC = () => {
 
 					</Form.Item>
 				</Form>
-			</Modal>
+			</Modal> }
 		</PageContainer>
 	);
 };

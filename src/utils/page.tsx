@@ -85,7 +85,7 @@ export function ApiPagination(props: ApiPaginationProps): PaginationProps {
         current: antdCurrent,
         pageSize: props?.size,
         total: props?.total,
-        pageSizeOptions: [2, 20, 50, 100], // 每页显示多少条
+        pageSizeOptions: [10, 20, 50, 100], // 每页显示多少条
         showSizeChanger: true, // 展示 pageSize 切换器
         // showQuickJumper: true, // 快速跳转至某页
         showTotal: (total) => `共有 ${total} 条数据`,
